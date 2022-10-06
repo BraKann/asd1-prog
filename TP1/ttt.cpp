@@ -16,7 +16,7 @@ void affichage_vide(int taille, char** tab2Dgrille)
   cout << " ";
   for(int k = 1; k <= taille; k++)
   {
-    cout << "  " << k;
+    cout << "  " << k << " ";
   }
   cout << endl;
 
