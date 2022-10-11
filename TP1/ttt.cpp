@@ -52,7 +52,7 @@ void affichage_vide(int taille, char** tab2Dgrille)
 
 }
 
-void placer(char symb, int posC, int posL, char** tab2Dgrille)
+/*void placer(char symb, int posC, int posL, char** tab2Dgrille)
 {
   if(tab2Dgrille[posC][posL] = NULL)
   {
@@ -62,24 +62,24 @@ void placer(char symb, int posC, int posL, char** tab2Dgrille)
     cin >> posL;
     placer(symb, posC, posL, tab2Dgrille);
   }
-}
+}*/
 
 
 int main()
 {
-  int taille = 2;
+  int taille;
   char symbole1, symbole2;
   char** tab2Dgrille;
 
 
   cout << "Donnez la taille de la grille" << endl;
-  //cin >> taille;
+  cin >> taille;
 
   cout << "Symbole du joueur 1 : X ou O" << endl;
-  //cin >> symbole1;
+  cin >> symbole1;
 
   cout << "Symbole du joueur 2 : X ou O" << endl;
-  //cin >> symbole2;
+  cin >> symbole2;
 
   creer_vide(taille, tab2Dgrille);
   affichage_vide(taille, tab2Dgrille);
