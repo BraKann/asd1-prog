@@ -1,5 +1,6 @@
 #include<iostream>
 #include<math.h>
+#include<cstring>
 using namespace std;
 
 void creer_vide(int taille, char** tab2Dgrille)
@@ -13,6 +14,8 @@ void creer_vide(int taille, char** tab2Dgrille)
 
 void affichage_vide(int taille, char** tab2Dgrille)
 {
+  //cout << clear;
+
   cout << " ";
   for(int k = 1; k <= taille; k++)
   {
@@ -47,29 +50,36 @@ void affichage_vide(int taille, char** tab2Dgrille)
     cout << endl;
   }
 
-  //systeme("clear");
 }
 
 void placer(char symb, int posC, int posL, char** tab2Dgrille)
 {
-  //if()
+  if(tab2Dgrille[posC][posL] = NULL)
+  {
+    tab2Dgrille[posC][posL] = symb; 
+  } else {
+    cin >> posC;
+    cin >> posL;
+    placer(symb, posC, posL, tab2Dgrille);
+  }
 }
+
 
 int main()
 {
-  int taille;
+  int taille = 2;
   char symbole1, symbole2;
   char** tab2Dgrille;
 
 
-  cout << "Donnez la taille de la grille?" << endl;
-  cin >> taille;
+  cout << "Donnez la taille de la grille" << endl;
+  //cin >> taille;
 
   cout << "Symbole du joueur 1 : X ou O" << endl;
-  cin >> symbole1;
+  //cin >> symbole1;
 
   cout << "Symbole du joueur 2 : X ou O" << endl;
-  cin >> symbole2;
+  //cin >> symbole2;
 
   creer_vide(taille, tab2Dgrille);
   affichage_vide(taille, tab2Dgrille);
