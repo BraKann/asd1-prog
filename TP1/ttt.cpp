@@ -52,9 +52,9 @@ void affichage_vide(int taille, char** tab2Dgrille)
 
 }
 
-/*void placer(char symb, int posC, int posL, char** tab2Dgrille)
+void placer(char symb, int posC, int posL, char** tab2Dgrille)
 {
-  if(tab2Dgrille[posC][posL] = NULL)
+  if(tab2Dgrille[posC][posL] = '-')
   {
     tab2Dgrille[posC][posL] = symb; 
   } else {
@@ -62,7 +62,7 @@ void affichage_vide(int taille, char** tab2Dgrille)
     cin >> posL;
     placer(symb, posC, posL, tab2Dgrille);
   }
-}*/
+}
 
 
 int main()
