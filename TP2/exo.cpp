@@ -2,6 +2,7 @@
 #include<math.h>
 #include<cstring>
 using namespace std;
+#include <fstream>
 
 struct Note {
     int nbQuestions;
