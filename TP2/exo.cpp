@@ -4,48 +4,47 @@
 using namespace std;
 #include <fstream>
 
-struct Note {
+struct Fichier_note 
+{
+    int nbMaxEtu;
     int nbQuestions;
-    char* reponses;
-    char note; 
-};
-
-struct Classe {
-    int nbMax;
-    int nbEleve;
+    string* reponses;
     string* etu;
-    Note* noteEtu;
+    char* note; 
 };
 
-void initNote(Note* n){
-    cin >> n->nbQuestions;
-    n->reponses = new char[n->nbQuestions];
+void initNote(Fichier_note* f){
 
-    for(int i = 0; i < n->nbQuestions; i++){
-        int k = random() % 2;
-        if(k == 0){
-            n->reponses[i] = ' ';
-        } else if(k == 1){
-            n->reponses[i] = 'T';
-        } else {
-            n->reponses[i] = 'F';
+    cin >> f->nbQuestions; //remplacer par un var. alea entre 1 et 40
+    cin >> f->nbMaxEtu; //remplacer par un var. alea entre 1 et 40
+
+    f->reponses = new string[f->nbMaxEtu];
+    for(int i = 0; i < f->nbMaxEtu; i++)
+    {
+        string note = "";
+        for(int j = 0; j < f->nbQuestions; j++)
+        {
+            int k = rand() % 2;
+            if(k == 0){
+                note += ' ';
+            } else if(k == 1){
+                note += 'T';
+            } else {
+                note += 'F';
+            }
         }
+        f->reponses[i] = note;
     }
-
-    n->note = 'A';
-
-}
-
-void initClasse(Classe* c){
-    cin >> c->nbMax;
-    c->nbEleve = 0;
     
-    c->etu = new string[c->nbMax];
+    f->etu = new string[f->nbMaxEtu];
+
 }
+
 
 int main() {
-    Note F1;
-    Classe C1;
+
+    Fichier_note F1;
+    
 
 
 
