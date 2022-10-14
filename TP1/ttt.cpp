@@ -3,29 +3,29 @@
 #include<cstring>
 using namespace std;
 
-void creer_vide(int taille, char **&tab2Dgrille)
+void creer_vide(int taille, char **&tab2D)
 {
-  tab2Dgrille = new char*[taille];
+  tab2D = new char*[taille];
   for(int i = 0; i < taille; i++)
   {
-    tab2Dgrille[i] = new char[taille];
+    tab2D[i] = new char[taille];
     
   }
 }
 
-void init(int taille, char **&tab2Dgrille){
+void init(int taille, char **&tab2D){
   for(int i = 0; i < taille; i++)
   {
     for(int j = 0; j < taille; j++)
     {
-      tab2Dgrille[i][j] = '-';
+      tab2D[i][j] = '-';
     }
   }
 }
 
-void affichage_vide(int taille, char **&tab2Dgrille)
+void affichage(int taille, char **&tab2D)
 {
-  system("CLS");
+  system("clear");
 
   cout << " ";
   for(int k = 1; k <= taille; k++)
@@ -48,7 +48,7 @@ void affichage_vide(int taille, char **&tab2Dgrille)
 
     for(int j = 0; j < taille; j++)
     {
-      cout << "|" << " " << tab2Dgrille[i][j] << " ";
+      cout << "|" << " " << tab2D[i][j] << " ";
     }
 
     cout << "|" << endl;
@@ -63,41 +63,97 @@ void affichage_vide(int taille, char **&tab2Dgrille)
 
 }
 
-void placer(int taille, char symb, char **&tab2Dgrille)
+void placer(int taille, char symb, char **&tab2D)
 {
   int posL, posC;
-  cout << endl << "inserez pos pour ligne : ";
+
+  cout << endl << "inserez une position de ligne : ";
   cin >> posL;
-  cout << "inserez pos pour colonne : ";
+  cout << "inserez une position de colonne : ";
   cin >> posC;
-  if(tab2Dgrille[posL-1][posC-1] == '-')
+
+  if(tab2D[posL-1][posC-1] == '-')
   {
-    tab2Dgrille[posL-1][posC-1] = symb; 
+    tab2D[posL-1][posC-1] = symb; 
   } else {
-    cout << endl << "inserez nouvelle pos pour ligne : ";
+    cout << endl << "inserez une nouvelle position de ligne : ";
     cin >> posL;
-    cout << "inserez nouvelle pos pour colonne : ";
+    cout << "inserez une nouvelle position de colonne : ";
     cin >> posC;
-    placer(taille, symb, tab2Dgrille);
+    placer(taille, symb, tab2D);
   }
-  affichage_vide(taille, tab2Dgrille);
+  affichage(taille, tab2D);
+  
 }
 
-void desalloc(int taille, char **&tab){
+bool winner(int taille, char** &tab2D)
+{
+  bool isWin = true;
+
+  //check les lignes
+  for(int i = 0; i < taille; i++){
+    for(int j = 0; j < taille-1; j++){
+      if(tab2D[i][j] != tab2D[i][j+1]){
+        isWin = false;
+      } else {
+        isWin = true;
+      }
+    }
+  }
+
+  //check les colonnes 
+  for(int i = 0; i < taille; i++){
+    for(int j = 0; j < taille-1; j++){
+      if(tab2D[j][i] != tab2D[j+1][i])
+      {
+        isWin = false;
+      } else {
+        isWin = true;
+      }
+    }
+  }
+
+  //check les diagonales
+  for(int i = 0; i < taille-1; i++){
+    if(tab2D[i][i] != tab2D[i+1][i+1])
+    {
+      isWin = false;
+    } else {
+        isWin = true;
+    }
+  }
+
+  for(int i = taille-1; i < 0; i++){
+    for(int j = 0; j < taille-1; j++){
+      if(tab2D[i][j] != tab2D[i-1][j+1])
+      {
+        isWin = false;
+      } else {
+        isWin = true;
+      }
+    }
+  }
+
+  return isWin;
+
+}
+
+void desalloc(int taille, char **&tab2D)
+{
   for(int i = 0; i < taille; i++)
 {
-    delete [] tab[i];
+    delete [] tab2D[i];
 }
 
-delete[] tab;
+delete[] tab2D;
 }
 
 int main()
 {
   int taille;
   char symbole1, symbole2;
-  char **tab2D;
-
+  char **grille;
+  bool isWin_;
 
   cout << "Donnez la taille de la grille" << endl;
   cin >> taille;
@@ -108,12 +164,14 @@ int main()
   cout << "Symbole du joueur 2 : X ou O" << endl;
   cin >> symbole2;
 
-  creer_vide(taille, tab2D);
-  init(taille,tab2D);
+  creer_vide(taille, grille);
+  init(taille,grille);
 
-  affichage_vide(taille, tab2D);
-  placer(taille, symbole1, tab2D);
-  placer(taille, symbole1, tab2D);
-
-  desalloc(taille, tab2D);
+  affichage(taille, grille);
+  placer(taille, symbole1, grille);
+  isWin_ = winner(taille,grille);
+  placer(taille, symbole1, grille);
+  isWin_ = winner(taille,grille);
+  cout << isWin_ << endl;
+  desalloc(taille, grille);
 }
