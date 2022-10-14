@@ -23,9 +23,9 @@ void init(int taille, char **&tab2D){
   }
 }
 
-void affichage(int taille, char **&tab2D)
+void afficher(int taille, char **&tab2D)
 {
-  system("clear");
+  system("CLS");
 
   cout << " ";
   for(int k = 1; k <= taille; k++)
@@ -67,75 +67,70 @@ void placer(int taille, char symb, char **&tab2D)
 {
   int posL, posC;
 
-  cout << endl << "inserez une position de ligne : ";
-  cin >> posL;
-  cout << "inserez une position de colonne : ";
-  cin >> posC;
+    cout << endl << "inserez une position de ligne : ";
+    cin >> posL;
+    cout << "inserez une position de colonne : ";
+    cin >> posC;
+  
 
-  if(tab2D[posL-1][posC-1] == '-')
-  {
-    tab2D[posL-1][posC-1] = symb; 
-  } else {
+  while( (tab2D[posL-1][posC-1] != '-') || ((posL > taille) || (posC > taille)) ) {
     cout << endl << "inserez une nouvelle position de ligne : ";
     cin >> posL;
     cout << "inserez une nouvelle position de colonne : ";
     cin >> posC;
-    placer(taille, symb, tab2D);
   }
-  affichage(taille, tab2D);
-  
+
+  tab2D[posL-1][posC-1] = symb; 
+  afficher(taille, tab2D);
 }
-
-bool winner(int taille, char** &tab2D)
+  
+bool winner(char c, int taille, char** &tab2D)
 {
-  bool isWin = true;
-
-  //check les lignes
+  bool isWinner;
+  // Checks Horizontal lines to see if c has won
   for(int i = 0; i < taille; i++){
-    for(int j = 0; j < taille-1; j++){
-      if(tab2D[i][j] != tab2D[i][j+1]){
-        isWin = false;
-      } else {
-        isWin = true;
-      }
-    }
-  }
-
-  //check les colonnes 
-  for(int i = 0; i < taille; i++){
-    for(int j = 0; j < taille-1; j++){
-      if(tab2D[j][i] != tab2D[j+1][i])
-      {
-        isWin = false;
-      } else {
-        isWin = true;
-      }
-    }
-  }
-
-  //check les diagonales
-  for(int i = 0; i < taille-1; i++){
-    if(tab2D[i][i] != tab2D[i+1][i+1])
+    
+    isWinner = true;
+    for(int j = 0; j < taille; j++)
     {
-      isWin = false;
-    } else {
-        isWin = true;
+        if(tab2D[i][j] != c){
+          isWinner = false;
+        }
+
     }
-  }
+    if(isWinner) return true;
 
-  for(int i = taille-1; i < 0; i++){
-    for(int j = 0; j < taille-1; j++){
-      if(tab2D[i][j] != tab2D[i-1][j+1])
-      {
-        isWin = false;
-      } else {
-        isWin = true;
-      }
+  }
+  // Checks Vertical lines to see if c has won
+
+  for(int j = 0; j < taille; j++){
+    isWinner = true;
+    for(int i = 0; i < taille; i++)
+    {
+        if(tab2D[i][j] != c){
+          isWinner = false;
+        }
+
     }
+    if(isWinner) return true;
+
   }
+  
+  // Checks the center diagonal
+  for(int i = 0; i < taille; i++){
+    isWinner = true;
+    
+    if(tab2D[i][i] != c){
+      isWinner = false;
+     }
+    
 
-  return isWin;
+  }
+  if(isWinner) return true;
 
+
+  // If in none of the cases above we win, then we automatically know its not a win(false)
+  return false;
 }
 
 void desalloc(int taille, char **&tab2D)
@@ -145,7 +140,7 @@ void desalloc(int taille, char **&tab2D)
     delete [] tab2D[i];
 }
 
-delete[] tab2D;
+  delete[] tab2D;
 }
 
 int main()
@@ -153,7 +148,7 @@ int main()
   int taille;
   char symbole1, symbole2;
   char **grille;
-  bool isWin_;
+  bool isWin_ = false;
 
   cout << "Donnez la taille de la grille" << endl;
   cin >> taille;
@@ -166,12 +161,22 @@ int main()
 
   creer_vide(taille, grille);
   init(taille,grille);
+  afficher(taille, grille);
 
-  affichage(taille, grille);
-  placer(taille, symbole1, grille);
-  isWin_ = winner(taille,grille);
-  placer(taille, symbole1, grille);
-  isWin_ = winner(taille,grille);
-  cout << isWin_ << endl;
+  while(isWin_ == false)
+  {
+    if(isWin_ == false){
+      cout << endl << symbole1 << " joue le tour" << endl;
+      placer(taille, symbole1, grille);
+      isWin_ = winner(symbole1,taille,grille);
+    }
+
+    if(isWin_ == false){
+      cout << endl << symbole2 << " joue le tour" << endl;
+      placer(taille, symbole2, grille);
+      isWin_ = winner(symbole2,taille,grille);
+    }
+  }
+  cout << "winner";
   desalloc(taille, grille);
 }
