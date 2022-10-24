@@ -1,9 +1,14 @@
+/*
+  ASD1 - TP n°1 - TIC TAC TOE 
+*/
+
 #include<iostream>
 #include<math.h>
 #include<cstring>
 using namespace std;
 
-void creer_vide(int taille, char **&tab2D)
+//initialise le tableau 2D
+void init(int taille, char** &tab2D)
 {
   tab2D = new char*[taille];
   for(int i = 0; i < taille; i++)
@@ -13,7 +18,8 @@ void creer_vide(int taille, char **&tab2D)
   }
 }
 
-void init(int taille, char **&tab2D){
+//remplie le tableau de '-' qui refére a des cases vide et jouable
+void remplir(int taille, char** &tab2D){
   for(int i = 0; i < taille; i++)
   {
     for(int j = 0; j < taille; j++)
@@ -23,10 +29,13 @@ void init(int taille, char **&tab2D){
   }
 }
 
-void afficher(int taille, char **&tab2D)
+//Affiche la grille de jeu au fur-et-a-mesure de la partie
+void afficher(int taille, char** &tab2D)
 {
+  //vide le terminal
   system("CLS");
 
+  //Affichage de la grille de jeu
   cout << " ";
   for(int k = 1; k <= taille; k++)
   {
@@ -48,6 +57,7 @@ void afficher(int taille, char **&tab2D)
 
     for(int j = 0; j < taille; j++)
     {
+      //permet a chaque appel de afficher de modifier la grille avec le nouveau symbole ajouter
       cout << "|" << " " << tab2D[i][j] << " ";
     }
 
@@ -63,7 +73,8 @@ void afficher(int taille, char **&tab2D)
 
 }
 
-void placer(int taille, char symb, char **&tab2D)
+//Place selon les position que l'utilisateur choisie le symbole du jouer dans la grille de jeu
+void placer(int taille, char symb, char** &tab2D)
 {
   int posL, posC;
 
@@ -72,68 +83,76 @@ void placer(int taille, char symb, char **&tab2D)
     cout << "inserez une position de colonne : ";
     cin >> posC;
   
-
-  while( (tab2D[posL-1][posC-1] != '-') || ((posL > taille) || (posC > taille)) ) {
+  //condiction de verification des position donner par l'utilisateur
+  while( (tab2D[posL-1][posC-1] != '-') || ((posL > taille) || (posC > taille)) ) 
+  {
     cout << endl << "inserez une nouvelle position de ligne : ";
     cin >> posL;
     cout << "inserez une nouvelle position de colonne : ";
     cin >> posC;
   }
-
+  //ajout
   tab2D[posL-1][posC-1] = symb; 
   afficher(taille, tab2D);
 }
-  
+
+//Verifie la totalité de la grille pour savoir si la partie est gagné par un certain joueur selon les suite de caractere dans la grille
 bool winner(char c, int taille, char** &tab2D)
 {
   bool isWinner;
-  // Checks Horizontal lines to see if c has won
-  for(int i = 0; i < taille; i++){
-    
+  //Verification des lignes
+  for(int i = 0; i < taille; i++)
+  {  
     isWinner = true;
     for(int j = 0; j < taille; j++)
     {
-        if(tab2D[i][j] != c){
-          isWinner = false;
-        }
-
+      if(tab2D[i][j] != c){
+        isWinner = false;
+      }
     }
-    if(isWinner) return true;
-
+    if(isWinner){ cout << "winner : " << c ; return true; }
   }
-  // Checks Vertical lines to see if c has won
 
-  for(int j = 0; j < taille; j++){
+  //Verification des colonnes
+  for(int j = 0; j < taille; j++)
+  {
     isWinner = true;
     for(int i = 0; i < taille; i++)
     {
-        if(tab2D[i][j] != c){
-          isWinner = false;
-        }
-
+      if(tab2D[i][j] != c){
+        isWinner = false;
+      }
     }
-    if(isWinner) return true;
-
+    if(isWinner){ cout << "winner : " << c ; return true; }
   }
   
-  // Checks the center diagonal
-  for(int i = 0; i < taille; i++){
-    isWinner = true;
-    
+  //Verification des diagonales
+  isWinner = true;
+  for(int i = 0; i < taille; i++)
+  {
+    //isWinner = true;
     if(tab2D[i][i] != c){
       isWinner = false;
-     }
-    
-
+    }
   }
-  if(isWinner) return true;
+  if(isWinner){ cout << "winner : " << c ; return true; }
 
+  isWinner = true;
+  for(int i = taille-1; i >= 0; i--)
+  {
+    //isWinner = true;
+    if(tab2D[i][taille-1-i] != c){
+      isWinner = false;
+    }
+  }
+  if(isWinner){ cout << "winner : " << c ; return true; }
 
-  // If in none of the cases above we win, then we automatically know its not a win(false)
+  //Si aucunes ligne, diagonales ou colonnes n'est remplie du meme caractere retorune qu'il n'y pas de gagnant pour l'etat actuel de la grille
   return false;
 }
 
-void desalloc(int taille, char **&tab2D)
+//Desallocation du tableau 2D
+void desalloc(int taille, char** &tab2D)
 {
   for(int i = 0; i < taille; i++)
 {
@@ -145,11 +164,13 @@ void desalloc(int taille, char **&tab2D)
 
 int main()
 {
+  //Variables
   int taille;
   char symbole1, symbole2;
-  char **grille;
+  char** grille;
   bool isWin_ = false;
 
+  //Début de partie, initilisation des variables par l'utilisateur 
   cout << "Donnez la taille de la grille" << endl;
   cin >> taille;
 
@@ -159,24 +180,29 @@ int main()
   cout << "Symbole du joueur 2 : X ou O" << endl;
   cin >> symbole2;
 
-  creer_vide(taille, grille);
-  init(taille,grille);
+  init(taille, grille);
+  remplir(taille, grille);
   afficher(taille, grille);
 
+  /*
+    structure l'enchainement d'une partie de tic tac toe
+    pour indiquer le cas d'une egalité, rajouter dans le tant que (isWin_ == false && grille non totalement remplie)
+    donc une fonction booléenne qui regarde si la grille est pleine ou non
+  */
   while(isWin_ == false)
   {
     if(isWin_ == false){
       cout << endl << symbole1 << " joue le tour" << endl;
       placer(taille, symbole1, grille);
-      isWin_ = winner(symbole1,taille,grille);
+      isWin_ = winner(symbole1, taille, grille);
     }
 
     if(isWin_ == false){
       cout << endl << symbole2 << " joue le tour" << endl;
       placer(taille, symbole2, grille);
-      isWin_ = winner(symbole2,taille,grille);
+      isWin_ = winner(symbole2, taille,  grille);
     }
   }
-  cout << "winner";
+
   desalloc(taille, grille);
 }
