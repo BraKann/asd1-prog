@@ -21,6 +21,7 @@ struct Fichier_note
 
 void initEtu(Etudiant* e)
 {
+    e->note = 0;
     
 
 }
