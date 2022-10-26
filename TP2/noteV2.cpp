@@ -4,14 +4,26 @@
 using namespace std;
 #include <fstream>
 
+struct Etudiant
+{
+    string* reponses;
+    string id;
+    int note;
+};
+
 struct Fichier_note 
 {
     int nbMaxEtu;
     int nbQuestions;
-    string* reponses;
-    string* etu;
-    char* note; 
+    string* bonne_reponse;
+    Etudiant* etu; 
 };
+
+void initEtu(Etudiant* e)
+{
+    
+
+}
 
 void initNote(Fichier_note* f){
 
