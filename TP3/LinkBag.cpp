@@ -65,7 +65,7 @@ void augmenterCapaSac(t_sac * sac)
         delete [] sac->tab;
         sac->tab = tempSac.tab;
         sac->capa = tempSac.capa;
-        cout << "le sac a été augmenter" << endl;
+        cout << "le sac a augmenter en taille" << endl;
     } else {
         cout << "le sac peut encore supporter quelques artefacts !" << endl;
     }
@@ -89,7 +89,7 @@ void reduireCapaSac(t_sac * sac)
         delete [] sac->tab;
         sac->tab = tempSac.tab;
         sac->capa = tempSac.capa;
-        cout << "le sac a été reduit" << endl;
+        cout << "le sac a reduit en taille" << endl;
     } else {
         cout << "le sac contient trop d'artefacts pour etre reduit !" << endl;
     }
@@ -100,8 +100,8 @@ void reduireCapaSac(t_sac * sac)
 */
 void afficheInfoSac(t_sac sac)
 {
-    cout << "la capacité max du sac est de : " << sac.capa << endl;
-    cout << "l'occupation du sac est de : : " << sac.occup << endl;
+    cout << "la capacite max du sac est de : " << sac.capa << endl;
+    cout << "l'occupation du sac est de : " << sac.occup << endl;
 }
 
 /*
@@ -109,7 +109,7 @@ void afficheInfoSac(t_sac sac)
 */
 void afficheArtefact(t_artefact art)
 {
-    cout << art.nomArt << "," << art.magique << " magie" << "," << art.poids << " kg" << "," << "type " << (art.classe)->nomRar<< "," << art.prix << " rupee par pièce" << "," << art.quantite << "pièce(s)" << endl;
+    cout << art.nomArt << "," << art.magique << " magie" << "," << art.poids << " kg" << "," << "type " << (art.classe)->nomRar<< "," << art.prix << " rupee par piece" << "," << art.quantite << " piece(s)" << endl;
 }
 
 /*
@@ -143,13 +143,14 @@ void quantiteArtefact(string nomArt, t_sac sac)
             it++;
         }
         if( it > sac.occup) {
-            cout << "Quantité : " << nomArt << " = 0" << endl;
+            cout << "Quantite : " << nomArt << " = 0" << endl;
         } else {
-            cout << "Quantité : " << nomArt << " = " << (sac.tab[it]).quantite << endl;
+            cout << "Quantite : " << nomArt << " = " << (sac.tab[it]).quantite << endl;
         }
+    } else {
+            cout << " le sac ne contient pas d'artefact" << endl;
     }
 
-    cout << " le sac ne contient pas d'artefact" << endl;
 }
 
 /*
@@ -169,14 +170,14 @@ t_artefact creerArtefact()
     cin >> art.poids;
     cout << endl << "prix : ";
     cin >>  art.prix;
-    cout << endl << "quantité : ";
+    cout << endl << "quantite : ";
     cin >> art.quantite;
 
-    cout << endl << "classe de raretée : ";
+    cout << endl << "classe de rarete : ";
+    art.classe = new t_cls_rarete;
     cin >> (art.classe)->nomRar;
-    cout << endl << "facteur de raretée : ";
+    cout << endl << "facteur de rarete : " << endl;
     cin >> (art.classe)->facteur;
-
 
     return art;
 }
@@ -228,7 +229,7 @@ void ajouteArtefact(t_sac * sac, t_artefact art)
             sac->occup++;
         }
     }
-    cout << "L'artefact a été ajouté" << endl;
+    cout << "L'artefact est ajouter" << endl;
 }
 
 /*
@@ -291,7 +292,7 @@ bool supprimerArtefact(t_sac* sac, string art_nom)
         reduireCapaSac(sac);
     }
 
-    cout << "L'artefact a été supprimer du sac" << endl;
+    cout << "L'artefact est supprimer du sac" << endl;
     return est_retirer;
 }
 
@@ -332,6 +333,7 @@ void scenario()
     afficheInfoSac(sac);
     afficheArtefact(art1);
 
+    supprimerArtefact(&sac, art1.nomArt);
     ajouteArtefact(&sac,art1);
     afficheInfoSac(sac);
 
@@ -339,7 +341,7 @@ void scenario()
 
     afficheLesArtefacts(sac);
 
-    valeurTotaleVente(sac);
+    cout << "Le prix total de tous les artefacts : " << valeurTotaleVente(sac) << endl;
 
     maxForceMagique(sac);
 
