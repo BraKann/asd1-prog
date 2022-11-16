@@ -32,8 +32,8 @@ void remplir(int taille, char** &tab2D){
 //Affiche la grille de jeu au fur-et-a-mesure de la partie
 void afficher(int taille, char** &tab2D)
 {
-  //vide le terminal
-  system("CLS");
+  //vide le terminal CLEAR sur linux
+  system("CLEAR");
 
   //Affichage de la grille de jeu
   cout << " ";
@@ -100,6 +100,7 @@ void placer(int taille, char symb, char** &tab2D)
 bool winner(char c, int taille, char** &tab2D)
 {
   bool isWinner;
+  
   //Verification des lignes
   for(int i = 0; i < taille; i++)
   {  
