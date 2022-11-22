@@ -33,6 +33,7 @@ struct t_cellule {
     t_cellule *suivant;
 };
 
+//-------QUESTION N°5-------
 struct t_seance {
     int numeroSemaine;
     int jourSemaine;
@@ -55,6 +56,7 @@ struct t_seance {
 };
 */
 
+//----------------------------------------------------------------------------------------------
 //-----------------------------------------QUESTION N°2-----------------------------------------
 
 t_cellule* enregistrement(){
@@ -143,8 +145,7 @@ t_cellule* chainage(string cdc){
 //------------------------------------------------------------------------------------------------
 //-----------------------------------------QUESTION N°5.A-----------------------------------------
 
-int nbSeances(t_seance* seance){
-    
+int nbSeancesTotal(t_seance* seance){
     int nbSeances = 0;
     if(seance == nullptr) return nbSeances;
 
@@ -185,7 +186,6 @@ void afficheUneSeance(t_seance* seance){
 }
 
 void afficheSeance(t_seance* seance){  
-
     if(seance != nullptr){
         t_seance* ptrCourant;
         ptrCourant = seance;
@@ -230,7 +230,6 @@ void AffichageSeances(t_seance* tete){
 //-----------------------------------------QUESTION N°5.C----------------------------------------
 
 void desallocationSeance(t_seance** seance){
-    
     if(seance != nullptr){
         t_seance *ptrCourant;
 
@@ -265,7 +264,6 @@ void desallocSeances(t_seance* &tete){
 
 //fonction initialise un t_seance aleatoire et le renvoi
 t_seance* creerSeance(){
-
     t_seance* seance = new t_seance;
 
     seance->numeroSemaine = 1 + (int)(rand() % (52-1+1)); //nbr aleatoire entre 1 et nbr de semaine en un an
@@ -374,8 +372,28 @@ bool supprimerSeance(t_seance* &tete,int nSem,int jour,int h, int min){
 
 //-----------------------------------------QUESTION N°6.C/7.A---------------------------------------
 
+int nbSeancesRestantes(t_seance* tete, int nSem, int nJour, int heure, int min){
+    int nbSeanceR = 0;
+    t_seance* ptrCourant;
+    ptrCourant = tete;
+    if(tete == nullptr){
+        cout << "Aucunes seances de prevues" << endl;
+        return nbSeanceR;
+    } else {
+        while( (ptrCourant->numeroSemaine != nSem) && (ptrCourant->jourSemaine != nJour) &&(ptrCourant->heures != heure) && (ptrCourant->minutes != min) ){
+            ptrCourant = ptrCourant->seanceSuivante;
+        }
+        ptrCourant = ptrCourant->seanceSuivante;
+        nbSeanceR++;
+        while(ptrCourant != nullptr){
+            ptrCourant = ptrCourant->seanceSuivante;
+            nbSeanceR++;
+        }
+    }
+    return nbSeanceR;
+}
+
 /*
-//Question 6.c et 7.a
 int nbSeances(t_seance* tete,int nSem,int jour,int h, int min){
     t_seance* seaCourant = tete;
     if(tete==nullptr){
