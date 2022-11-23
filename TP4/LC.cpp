@@ -130,8 +130,9 @@ t_cellule* chainage(string cdc){
     pcel = new t_cellule;
 
     tete = pcel;
-
+    //Parcours de la chaine de caractere 
     for(char c : cdc){
+        //Ajout du caractere courant
         pcel->info = c;
         psuiv = new t_cellule;
         pcel->suivant = psuiv;
@@ -145,6 +146,9 @@ t_cellule* chainage(string cdc){
 //------------------------------------------------------------------------------------------------
 //-----------------------------------------QUESTION N°5.A-----------------------------------------
 
+/*
+    
+*/
 int nbSeancesTotal(t_seance* seance){
     int nbSeances = 0;
     if(seance == nullptr) return nbSeances;
